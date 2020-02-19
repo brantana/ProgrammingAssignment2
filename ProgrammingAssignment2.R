@@ -1,26 +1,38 @@
-#
-#==Parts 1 & 2 - Set the value of the vector and get the value of the vector.
-makeVector<-function(x=numeric()){
-        m<-NULL
-        set<-function(y){
-                x<<-y
-                m<<-NULL
+#Mark Brantana - Programming Assignment 2
+#I approached this by 1. ensuring the original vector example program
+#                     2. making the analygous changes from mean to solve
+#                     3. testing the program to ensure it works properly
+
+makeCacheMatrix <- function(x = numeric()) { #Changed function name to "makeCacheMatrix"
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
         }
-        get<-function()x
-        setmean<-function (mean)m<<-mean
-        list(set=set,get=get,
-             setmean=setmean,
-             getmean=getmean)
+        get <- function() x
+        setinv <- function(inv) m <<- inv     #Find/Replaced all "mean" to "inv" via a text editor (both functions)
+        getinv <- function() m
+        list(set = set, get = get,
+             setinv = setinv,
+             getinv = getinv)
 }
-#==Part 3 & 4 - Set the value of the mean and get the value of the mean.
-cachemean<-function(X){
-        m<-x$getmean()
-        if(!is.null(m)){
+cacheSolve <- function(x, ...) {                #Changed function name to "cacheSolve"
+        m <- x$getinv()
+        if(!is.null(m)) {
                 message("getting cached data")
                 return(m)
         }
-        data<-x$get()
-        m<-mean(solve(X))
-        x$setmean(m)
+        data <- x$get()
+        m <- solve(data, ...)                   #Utilized solve (analygous to mean)
+        x$setinv(m)
         m
 }
+
+
+m1 <- matrix(c(1/2, -1/4, -1, 3/4), nrow = 2, ncol = 2)
+m1
+solve(m1)
+myMatrix_object <- makeCacheMatrix(m1)
+cacheSolve(myMatrix_object)
+
+
